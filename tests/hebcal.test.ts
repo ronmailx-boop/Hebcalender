@@ -84,6 +84,27 @@ describe("getMonthGrid — grid shape", () => {
   });
 });
 
+describe("getMonthGrid — per-holiday colors", () => {
+  it("gives Rosh Hashana, Yom Kippur and Sukkot distinct colors", () => {
+    const rh = find(SEPT_2026, "2026-09-12").color;
+    const yk = find(SEPT_2026, "2026-09-21").color;
+    const sukkot = find(SEPT_2026, "2026-09-26").color;
+    expect(rh).not.toBeNull();
+    expect(new Set([rh, yk, sukkot]).size).toBe(3);
+  });
+
+  it("colors every day of a multi-day holiday's Chol HaMoed the same as its first day", () => {
+    const day1 = find(SEPT_2026, "2026-09-26").color;
+    const cholHamoed = find(SEPT_2026, "2026-09-27").color;
+    expect(cholHamoed).toBe(day1);
+  });
+
+  it("gives plain weekdays no color", () => {
+    const plainDay = SEPT_2026.find((c) => c.kind === "plain");
+    expect(plainDay!.color).toBeNull();
+  });
+});
+
 describe("getEventsInRange", () => {
   it("returns a non-empty, well-formed event list for a narrow window", () => {
     const events = getEventsInRange(new Date(2026, 8, 1), new Date(2026, 8, 30));

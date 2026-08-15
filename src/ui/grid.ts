@@ -27,14 +27,16 @@ export function renderGrid(cells: DayCell[], selectedIso: string | null): string
   return cells
     .map((cell) => {
       const classes = ["compact-cell"];
-      if (cell.kind !== "plain") classes.push(`k-${cell.kind}`);
       if (cell.isOutside) classes.push("is-outside");
       if (cell.iso === todayIso) classes.push("is-today");
       const pressed = cell.iso === selectedIso;
+      const numberHtml = cell.color
+        ? `<span class="n n-badge" style="background:${cell.color}">${cell.dnum}</span>`
+        : `<span class="n">${cell.dnum}</span>`;
       return (
         `<button type="button" class="${classes.join(" ")}" data-iso="${cell.iso}" ` +
         `aria-pressed="${pressed}" aria-label="${ariaLabel(cell)}">` +
-        `<span class="n">${cell.dnum}</span><span class="m">${markerFor(cell)}</span>` +
+        `${numberHtml}<span class="m">${markerFor(cell)}</span>` +
         `</button>`
       );
     })

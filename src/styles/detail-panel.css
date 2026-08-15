@@ -17,10 +17,20 @@
 }
 
 .detail-panel .dp-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 1.3rem;
   font-weight: 800;
   margin-bottom: 14px;
   text-wrap: balance;
+}
+
+.dp-dot {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
 }
 
 .detail-panel .dp-times {

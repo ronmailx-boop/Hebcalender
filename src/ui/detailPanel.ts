@@ -23,9 +23,11 @@ export function renderDetail(cell: DayCell | null): string {
   if (cell.entry) times.push(timeRow(cell.entry, "🕯️"));
   if (cell.exit) times.push(timeRow(cell.exit, "✨"));
 
+  const dot = cell.color ? `<span class="dp-dot" style="background:${cell.color}"></span>` : "";
+
   return (
     `<div class="dp-date">${dateLine}</div>` +
-    `<div class="dp-title">${cell.title ?? ""}</div>` +
+    `<div class="dp-title">${dot}${cell.title ?? ""}</div>` +
     (times.length ? `<div class="dp-times">${times.join("")}</div>` : "")
   );
 }

@@ -25,31 +25,22 @@
 .compact-cell .n {
   font-size: 0.9rem;
   font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compact-cell .n-badge {
+  min-width: 1.9em;
+  min-height: 1.9em;
+  border-radius: 999px;
+  color: #fff;
+  padding: 0 2px;
 }
 
 .compact-cell .m {
   font-size: 0.85rem;
   line-height: 1;
-}
-
-.compact-cell.k-shabbat {
-  background: var(--shabbat-bg);
-}
-
-.compact-cell.k-chag {
-  background: var(--chag-bg);
-}
-
-.compact-cell.k-cholhamoed {
-  background: var(--cholhamoed-bg);
-}
-
-.compact-cell.k-fast {
-  background: var(--fast-bg);
-}
-
-.compact-cell.k-minor {
-  background: var(--minor-bg);
 }
 
 .compact-cell.is-outside {

@@ -10,6 +10,7 @@ import {
 import { LOCATIONS, DEFAULT_LOCATION_KEY, type LocationConfig } from "../config";
 import { classifyDay, isChagTimedEvent, type DayKind } from "./dayType";
 import { isoDate, stripTrailingTime } from "./format";
+import { getHolidayColor } from "./holidayColor";
 
 export interface TimeEntry {
   label: string;
@@ -25,6 +26,8 @@ export interface DayCell {
   heb: string;
   kind: DayKind;
   title: string | null;
+  /** Solid per-holiday badge color (e.g. Sukkot vs. Chanukah get different colors), null for a plain day. */
+  color: string | null;
   entry: TimeEntry | null;
   exit: TimeEntry | null;
 }
@@ -57,6 +60,8 @@ function buildCell(date: Date, gregMonth: number, events: HebcalEvent[]): DayCel
   if (titleEvent) title = titleEvent.render("he-x-nonikud");
   else if (kind === "shabbat") title = "שבת";
 
+  const color = getHolidayColor(titleEvent ? titleEvent.basename() : null, kind);
+
   if (TIMED_KINDS.includes(kind)) {
     for (const ev of events) {
       if (ev instanceof CandleLightingEvent) {
@@ -83,6 +88,7 @@ function buildCell(date: Date, gregMonth: number, events: HebcalEvent[]): DayCel
     heb: new HDate(date).renderGematriya(true),
     kind,
     title,
+    color,
     entry,
     exit,
   };
