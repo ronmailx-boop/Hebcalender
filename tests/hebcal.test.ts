@@ -103,6 +103,25 @@ describe("getMonthGrid — per-holiday colors", () => {
     const plainDay = SEPT_2026.find((c) => c.kind === "plain");
     expect(plainDay!.color).toBeNull();
   });
+
+  it("leaves a plain Friday uncolored but still gives it a candle-lighting time", () => {
+    const friday = find(SEPT_2026, "2026-09-18");
+    expect(friday.kind).toBe("shabbat");
+    expect(friday.color).toBeNull();
+    expect(friday.entry?.label).toBe("כניסת שבת");
+  });
+
+  it("still colors a regular Saturday red for Shabbat", () => {
+    const saturday = find(SEPT_2026, "2026-09-19");
+    expect(saturday.color).not.toBeNull();
+  });
+
+  it("colors a Friday that's also Erev-chag with the chag's color, not left blank", () => {
+    const erevSukkotFriday = find(SEPT_2026, "2026-09-25");
+    expect(erevSukkotFriday.dow).toBe(5);
+    expect(erevSukkotFriday.kind).toBe("chag");
+    expect(erevSukkotFriday.color).not.toBeNull();
+  });
 });
 
 describe("getEventsInRange", () => {

@@ -60,7 +60,11 @@ function buildCell(date: Date, gregMonth: number, events: HebcalEvent[]): DayCel
   if (titleEvent) title = titleEvent.render("he-x-nonikud");
   else if (kind === "shabbat") title = "שבת";
 
-  const color = getHolidayColor(titleEvent ? titleEvent.basename() : null, kind);
+  // Friday only carries candle-lighting into Shabbat, not Shabbat itself — leave it
+  // uncolored unless a chag/fast/Chol HaMoed already claimed the day (classifyDay's
+  // precedence means those cases already have kind !== "shabbat" here).
+  const isPlainFriday = kind === "shabbat" && dow === 5;
+  const color = isPlainFriday ? null : getHolidayColor(titleEvent ? titleEvent.basename() : null, kind);
 
   if (TIMED_KINDS.includes(kind)) {
     for (const ev of events) {
