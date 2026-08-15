@@ -30,17 +30,13 @@
   justify-content: center;
 }
 
-.compact-cell .n-badge {
-  min-width: 1.9em;
-  min-height: 1.9em;
-  border-radius: 999px;
-  color: #fff;
-  padding: 0 2px;
-}
-
 .compact-cell .m {
   font-size: 0.85rem;
   line-height: 1;
+}
+
+.compact-cell.has-color {
+  border-color: transparent;
 }
 
 .compact-cell.is-outside {
@@ -54,14 +50,32 @@
   text-decoration-color: var(--accent);
 }
 
+.compact-cell.has-color.is-today .n {
+  text-decoration-color: currentColor;
+}
+
 .compact-cell[aria-pressed="true"] {
   outline: 3px solid var(--accent);
   outline-offset: 1px;
 }
 
+.compact-cell.has-color[aria-pressed="true"] {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 5px var(--accent);
+}
+
 .compact-cell:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 1px;
+}
+
+.compact-cell.has-color:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 5px var(--accent);
 }
 
 @media (max-width: 480px) {

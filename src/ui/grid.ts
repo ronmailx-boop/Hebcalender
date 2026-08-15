@@ -1,5 +1,6 @@
 import type { DayCell } from "../lib/hebcal";
 import { DOW_LABELS_SHORT, MONTH_LABELS_GREG, isoDate } from "../lib/format";
+import { getContrastText } from "../lib/holidayColor";
 
 export function renderDowRow(): string {
   return DOW_LABELS_SHORT.map((d) => `<span>${d}</span>`).join("");
@@ -29,14 +30,13 @@ export function renderGrid(cells: DayCell[], selectedIso: string | null): string
       const classes = ["compact-cell"];
       if (cell.isOutside) classes.push("is-outside");
       if (cell.iso === todayIso) classes.push("is-today");
+      if (cell.color) classes.push("has-color");
       const pressed = cell.iso === selectedIso;
-      const numberHtml = cell.color
-        ? `<span class="n n-badge" style="background:${cell.color}">${cell.dnum}</span>`
-        : `<span class="n">${cell.dnum}</span>`;
+      const style = cell.color ? ` style="background:${cell.color};color:${getContrastText(cell.color)}"` : "";
       return (
-        `<button type="button" class="${classes.join(" ")}" data-iso="${cell.iso}" ` +
+        `<button type="button" class="${classes.join(" ")}" data-iso="${cell.iso}"${style} ` +
         `aria-pressed="${pressed}" aria-label="${ariaLabel(cell)}">` +
-        `${numberHtml}<span class="m">${markerFor(cell)}</span>` +
+        `<span class="n">${cell.dnum}</span><span class="m">${markerFor(cell)}</span>` +
         `</button>`
       );
     })

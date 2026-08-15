@@ -1,44 +1,47 @@
 import type { DayKind } from "./dayType";
 
 /**
- * One solid, distinct color per named holiday/fast, keyed by hebcal's
- * `basename()` — which already collapses "Erev X", "X II", and "X (Chol
- * HaMoed)" down to the same family name (verified against @hebcal/core
- * directly, e.g. "Sukkot" covers Erev Sukkot through Hoshana Rabbah).
- * Colors are fixed hex values (not light/dark tokens): each is rendered as
- * a solid circle behind white text, so it carries its own contrast
- * regardless of the surrounding page theme — the same way a colored event
- * dot in a calendar app doesn't change with system theme.
+ * One vivid, distinct background color per named holiday/fast, keyed by
+ * hebcal's `basename()` — which already collapses "Erev X", "X II", and
+ * "X (Chol HaMoed)" down to the same family name (verified against
+ * @hebcal/core directly, e.g. "Sukkot" covers Erev Sukkot through Hoshana
+ * Rabbah). Rendered as a solid full-cell background, so the whole day
+ * square carries the color, not just a badge.
+ *
+ * Deliberately more subdued: Yom HaShoah, Yom HaZikaron and Tish'a B'Av —
+ * these are the year's deepest mourning days, and a bright/celebratory
+ * background would misrepresent them even though every other holiday here
+ * is intentionally vivid.
  */
 const HOLIDAY_COLORS: Record<string, string> = {
-  "Rosh Hashana": "#C08A2E",
-  "Yom Kippur": "#7A2340",
-  Sukkot: "#C1662A",
-  "Shmini Atzeret": "#7B4FA6",
-  Chanukah: "#1C7293",
-  "Tu BiShvat": "#2F6B46",
-  Purim: "#C23B7A",
-  "Shushan Purim": "#C23B7A",
-  Pesach: "#6FA33F",
-  Shavuot: "#A98F2E",
-  "Yom HaAtzma'ut": "#1F6FEB",
-  "Yom Yerushalayim": "#A8813C",
-  "Yom HaZikaron": "#4A5568",
-  "Yom HaShoah": "#3D3540",
-  "Tzom Gedaliah": "#8A2A45",
-  "Asara B'Tevet": "#7A3B3B",
-  "Ta'anit Esther": "#9B4F6B",
-  "Tzom Tammuz": "#6E4A6E",
-  "Tish'a B'Av": "#3A1620",
+  "Rosh Hashana": "#F5A623",
+  "Yom Kippur": "#B0225C",
+  Sukkot: "#F2711C",
+  "Shmini Atzeret": "#8E44E0",
+  Chanukah: "#1E88E5",
+  "Tu BiShvat": "#16A34A",
+  Purim: "#EC4899",
+  "Shushan Purim": "#EC4899",
+  Pesach: "#65C640",
+  Shavuot: "#F4D03F",
+  "Yom HaAtzma'ut": "#1565C0",
+  "Yom Yerushalayim": "#D4AF37",
+  "Yom HaZikaron": "#45566B",
+  "Yom HaShoah": "#2E2A38",
+  "Tzom Gedaliah": "#C0392B",
+  "Asara B'Tevet": "#A63A50",
+  "Ta'anit Esther": "#C2547A",
+  "Tzom Tammuz": "#8E4585",
+  "Tish'a B'Av": "#241019",
 };
 
-const SHABBAT_COLOR = "#22587F";
+const SHABBAT_COLOR = "#E5352B";
 const FALLBACK_BY_KIND: Record<DayKind, string | null> = {
   shabbat: SHABBAT_COLOR,
-  chag: "#A4650E",
-  cholhamoed: "#187767",
-  fast: "#8A2A45",
-  minor: "#5B4A8A",
+  chag: "#E08A1E",
+  cholhamoed: "#1FA37A",
+  fast: "#A63A50",
+  minor: "#7B7F8C",
   plain: null,
 };
 
@@ -53,4 +56,32 @@ export function getHolidayColor(basename: string | null, kind: DayKind): string 
   if (kind === "shabbat") return SHABBAT_COLOR;
   if (basename && HOLIDAY_COLORS[basename]) return HOLIDAY_COLORS[basename];
   return FALLBACK_BY_KIND[kind];
+}
+
+function hexToRgb(hex: string): [number, number, number] {
+  const n = parseInt(hex.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+function relativeLuminance(hex: string): number {
+  const [r, g, b] = hexToRgb(hex).map((c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+}
+
+const DARK_TEXT = "#1a1420";
+const LIGHT_TEXT = "#ffffff";
+
+/**
+ * Picks white or dark text for a given background hex by comparing WCAG
+ * contrast ratios against both, so a bright background (e.g. a yellow)
+ * automatically gets dark text instead of unreadable white-on-yellow.
+ */
+export function getContrastText(hex: string): string {
+  const L = relativeLuminance(hex);
+  const whiteContrast = (1.0 + 0.05) / (L + 0.05);
+  const darkContrast = (L + 0.05) / (0.02 + 0.05);
+  return whiteContrast >= darkContrast ? LIGHT_TEXT : DARK_TEXT;
 }
