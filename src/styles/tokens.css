@@ -1,0 +1,92 @@
+:root {
+  --bg: #f3f1f6;
+  --surface: #ffffff;
+  --surface-2: #eceaf3;
+  --ink: #221d2e;
+  --ink-soft: #5b5570;
+  --border: #dcd8e6;
+  --border-soft: #e8e5f0;
+  --accent: #5b4a8a;
+  --accent-ink: #3c3163;
+
+  --chag: #a4650e;
+  --chag-bg: #fbecd3;
+  --chag-line: #e7c68a;
+  --shabbat: #22587f;
+  --shabbat-bg: #dcecf6;
+  --shabbat-line: #a9cfe6;
+  --cholhamoed: #187767;
+  --cholhamoed-bg: #dbf0e9;
+  --cholhamoed-line: #a3dbc9;
+  --fast: #8a2a45;
+  --fast-bg: #f6dee6;
+  --fast-line: #e5b3c4;
+  --minor: #5b4a8a;
+  --minor-bg: #e9e5f4;
+  --minor-line: #c9c0e3;
+
+  --shadow: 0 1px 2px rgba(34, 29, 46, 0.06), 0 6px 20px -8px rgba(34, 29, 46, 0.18);
+  --radius: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #18151f;
+    --surface: #211c2b;
+    --surface-2: #2a2436;
+    --ink: #f1eef7;
+    --ink-soft: #b7b0cb;
+    --border: #39324a;
+    --border-soft: #2d2739;
+    --accent: #b6a3ea;
+    --accent-ink: #e4dbfb;
+
+    --chag: #e7ab52;
+    --chag-bg: #3a2c14;
+    --chag-line: #5c4520;
+    --shabbat: #84b8e2;
+    --shabbat-bg: #1b2c3c;
+    --shabbat-line: #2c4560;
+    --cholhamoed: #68d2bb;
+    --cholhamoed-bg: #12302a;
+    --cholhamoed-line: #1f4a40;
+    --fast: #ea9bb2;
+    --fast-bg: #3a1c27;
+    --fast-line: #582b3a;
+    --minor: #b6a3ea;
+    --minor-bg: #2a2440;
+    --minor-line: #453a63;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #18151f;
+  --surface: #211c2b;
+  --surface-2: #2a2436;
+  --ink: #f1eef7;
+  --ink-soft: #b7b0cb;
+  --border: #39324a;
+  --border-soft: #2d2739;
+  --accent: #b6a3ea;
+  --accent-ink: #e4dbfb;
+
+  --chag: #e7ab52;
+  --chag-bg: #3a2c14;
+  --chag-line: #5c4520;
+  --shabbat: #84b8e2;
+  --shabbat-bg: #1b2c3c;
+  --shabbat-line: #2c4560;
+  --cholhamoed: #68d2bb;
+  --cholhamoed-bg: #12302a;
+  --cholhamoed-line: #1f4a40;
+  --fast: #ea9bb2;
+  --fast-bg: #3a1c27;
+  --fast-line: #582b3a;
+  --minor: #b6a3ea;
+  --minor-bg: #2a2440;
+  --minor-line: #453a63;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+}

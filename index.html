@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <title>לוח החגים</title>
+    <meta name="description" content="לוח שנה עברי לישראל — כניסת ויציאת שבת וחג, עם מינוי ליומן Google" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%85%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/legend.css" />
+    <link rel="stylesheet" href="/src/styles/grid.css" />
+    <link rel="stylesheet" href="/src/styles/detail-panel.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <p class="eyebrow" id="locationLabel">ירושלים</p>
+        <h1>לוח החגים</h1>
+        <p class="lede">כניסת שבת ויציאתה, כניסת חג ויציאתו — בלוח קומפקטי אחד. הקשה על יום מציגה את כל הפרטים.</p>
+      </header>
+
+      <div class="legend" role="note" aria-label="מקרא לצבעים ולסימונים">
+        <span class="legend-item"><i class="dot dot-shabbat" aria-hidden="true"></i>שבת</span>
+        <span class="legend-item"><i class="dot dot-chag" aria-hidden="true"></i>חג</span>
+        <span class="legend-item"><i class="dot dot-cholhamoed" aria-hidden="true"></i>חול המועד</span>
+        <span class="legend-item"><i class="dot dot-fast" aria-hidden="true"></i>יום צום</span>
+        <span class="legend-item"><i class="dot dot-minor" aria-hidden="true"></i>ציון מיוחד</span>
+        <span class="legend-item legend-time">🕯️ כניסה &nbsp;·&nbsp; ✨ יציאה</span>
+      </div>
+
+      <nav class="month-nav" aria-label="ניווט חודשים">
+        <button type="button" id="prevMonth" class="nav-btn" aria-label="חודש קודם">‹</button>
+        <h2 id="monthTitle" class="month-title" aria-live="polite"></h2>
+        <button type="button" id="nextMonth" class="nav-btn" aria-label="חודש הבא">›</button>
+        <button type="button" id="todayBtn" class="today-btn">היום</button>
+      </nav>
+
+      <div class="dow-row" id="dowRow" aria-hidden="true"></div>
+      <div class="compact-grid" id="compactGrid" role="group" aria-label="רשת ימי החודש"></div>
+
+      <section class="detail-panel" id="detailPanel" aria-live="polite"></section>
+
+      <div class="ics-actions" id="icsActions">
+        <a id="subscribeLink" class="ics-btn ics-btn-primary" href="#">📅 הוסף ליומן Google</a>
+        <button type="button" id="downloadIcsBtn" class="ics-btn ics-btn-secondary">⬇ הורדת קובץ ICS</button>
+      </div>
+
+      <footer class="foot">
+        <p>זמני כניסה/יציאה מחושבים עבור ירושלים (הדלקת נרות 40 דקות לפני השקיעה). תאריכים לפי כללי החגים בישראל.</p>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

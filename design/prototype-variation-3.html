@@ -1,0 +1,814 @@
+<title>לוח החגים</title>
+
+<div class="page" dir="rtl" lang="he">
+
+  <header class="hero">
+    <p class="eyebrow">אב טיפוס להשוואה — ירושלים, תשרי תשפ״ז</p>
+    <h1>לוח החגים</h1>
+    <p class="lede">חמישה עיצובים לאותו חודש חגים. כניסת שבת ויציאתה, כניסת חג ויציאתו — בגודל ובניגודיות שקריאים במבט אחד, גם בנייד.</p>
+  </header>
+
+  <div class="legend" role="note" aria-label="מקרא לצבעים ולסימונים">
+    <span class="legend-item"><i class="dot dot-shabbat" aria-hidden="true"></i>שבת</span>
+    <span class="legend-item"><i class="dot dot-chag" aria-hidden="true"></i>חג</span>
+    <span class="legend-item"><i class="dot dot-cholhamoed" aria-hidden="true"></i>חול המועד</span>
+    <span class="legend-item"><i class="dot dot-fast" aria-hidden="true"></i>יום צום</span>
+    <span class="legend-item legend-time">🕯️ כניסה &nbsp;·&nbsp; ✨ יציאה</span>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="בחירת עיצוב">
+    <button class="tab" role="tab" data-tab="cards" aria-selected="true">1 · קוביות גדולות</button>
+    <button class="tab" role="tab" data-tab="agenda" aria-selected="false">2 · רשימה</button>
+    <button class="tab" role="tab" data-tab="compact" aria-selected="false">3 · רשת ופרטים</button>
+    <button class="tab" role="tab" data-tab="timeline" aria-selected="false">4 · ציר זמן</button>
+    <button class="tab" role="tab" data-tab="a11y" aria-selected="false">5 · נגישות מוגברת</button>
+  </nav>
+
+  <main id="panels"></main>
+
+  <footer class="foot">
+    <p>נתוני הדוגמה (תאריכים עבריים ושעות כניסה/יציאה) הם להמחשה בלבד ואינם מדויקים אסטרונומית. בבנייה בפועל ישולב מקור חישוב מדויק לפי מיקום.</p>
+  </footer>
+</div>
+
+<style>
+  :root{
+    --bg:#f3f1f6;
+    --surface:#ffffff;
+    --surface-2:#eceaf3;
+    --ink:#221d2e;
+    --ink-soft:#5b5570;
+    --border:#dcd8e6;
+    --border-soft:#e8e5f0;
+    --accent:#5b4a8a;
+    --accent-ink:#3c3163;
+
+    --chag:#a4650e;
+    --chag-bg:#fbecd3;
+    --chag-line:#e7c68a;
+    --shabbat:#22587f;
+    --shabbat-bg:#dcecf6;
+    --shabbat-line:#a9cfe6;
+    --cholhamoed:#187767;
+    --cholhamoed-bg:#dbf0e9;
+    --cholhamoed-line:#a3dbc9;
+    --fast:#8a2a45;
+    --fast-bg:#f6dee6;
+    --fast-line:#e5b3c4;
+
+    --shadow: 0 1px 2px rgba(34,29,46,.06), 0 6px 20px -8px rgba(34,29,46,.18);
+    --radius: 14px;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18151f;
+      --surface:#211c2b;
+      --surface-2:#2a2436;
+      --ink:#f1eef7;
+      --ink-soft:#b7b0cb;
+      --border:#39324a;
+      --border-soft:#2d2739;
+      --accent:#b6a3ea;
+      --accent-ink:#e4dbfb;
+
+      --chag:#e7ab52;
+      --chag-bg:#3a2c14;
+      --chag-line:#5c4520;
+      --shabbat:#84b8e2;
+      --shabbat-bg:#1b2c3c;
+      --shabbat-line:#2c4560;
+      --cholhamoed:#68d2bb;
+      --cholhamoed-bg:#12302a;
+      --cholhamoed-line:#1f4a40;
+      --fast:#ea9bb2;
+      --fast-bg:#3a1c27;
+      --fast-line:#582b3a;
+
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -10px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18151f;
+    --surface:#211c2b;
+    --surface-2:#2a2436;
+    --ink:#f1eef7;
+    --ink-soft:#b7b0cb;
+    --border:#39324a;
+    --border-soft:#2d2739;
+    --accent:#b6a3ea;
+    --accent-ink:#e4dbfb;
+
+    --chag:#e7ab52;
+    --chag-bg:#3a2c14;
+    --chag-line:#5c4520;
+    --shabbat:#84b8e2;
+    --shabbat-bg:#1b2c3c;
+    --shabbat-line:#2c4560;
+    --cholhamoed:#68d2bb;
+    --cholhamoed-bg:#12302a;
+    --cholhamoed-line:#1f4a40;
+    --fast:#ea9bb2;
+    --fast-bg:#3a1c27;
+    --fast-line:#582b3a;
+
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -10px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    direction:rtl;
+    font-family: "Segoe UI", "Arial Hebrew", "Noto Sans Hebrew", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:920px;
+    margin:0 auto;
+    padding:28px 18px 60px;
+  }
+  @media (max-width:480px){
+    .page{ padding:18px 12px 48px; }
+  }
+
+  .hero{ margin-bottom:18px; }
+  .eyebrow{
+    margin:0 0 6px;
+    font-size:.8rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    color:var(--accent-ink);
+    background:var(--surface-2);
+    display:inline-block;
+    padding:4px 12px;
+    border-radius:999px;
+  }
+  h1{
+    margin:6px 0 8px;
+    font-size:clamp(1.8rem, 5vw, 2.4rem);
+    font-weight:800;
+    text-wrap:balance;
+  }
+  .lede{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:1.05rem;
+    line-height:1.6;
+    max-width:60ch;
+  }
+
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 18px;
+    align-items:center;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    padding:12px 16px;
+    margin:18px 0;
+    box-shadow:var(--shadow);
+  }
+  .legend-item{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:.92rem;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .legend-time{ margin-inline-start:auto; font-weight:500; }
+  .dot{
+    width:12px; height:12px; border-radius:4px; display:inline-block;
+  }
+  .dot-shabbat{ background:var(--shabbat); }
+  .dot-chag{ background:var(--chag); }
+  .dot-cholhamoed{ background:var(--cholhamoed); }
+  .dot-fast{ background:var(--fast); }
+
+  .tabs{
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding-bottom:4px;
+    margin-bottom:20px;
+    scrollbar-width:thin;
+  }
+  .tab{
+    flex:0 0 auto;
+    font-family:inherit;
+    font-size:.92rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:10px 16px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .tab:hover{ color:var(--ink); }
+  .tab:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+  .tab[aria-selected="true"]{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+  :root[data-theme="dark"] .tab[aria-selected="true"],
+  @media (prefers-color-scheme: dark){ }
+
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-weight:700;
+    font-size:.85rem;
+    padding:3px 10px;
+    border-radius:999px;
+    border:1px solid transparent;
+  }
+  .badge-shabbat{ background:var(--shabbat-bg); color:var(--shabbat); border-color:var(--shabbat-line); }
+  .badge-chag{ background:var(--chag-bg); color:var(--chag); border-color:var(--chag-line); }
+  .badge-cholhamoed{ background:var(--cholhamoed-bg); color:var(--cholhamoed); border-color:var(--cholhamoed-line); }
+  .badge-fast{ background:var(--fast-bg); color:var(--fast); border-color:var(--fast-line); }
+
+  .timerow{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    font-size:1rem;
+  }
+  .timerow .icon{ font-size:1.05em; }
+  .timerow .tlabel{ color:var(--ink-soft); font-weight:600; }
+  .timerow .tval{ font-weight:800; font-variant-numeric:tabular-nums; margin-inline-start:auto; }
+
+  /* ---------- 1. Big cards ---------- */
+  .cards-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:8px;
+  }
+  .daycard{
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:10px 8px;
+    min-height:108px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    box-shadow:var(--shadow);
+  }
+  .daycard.is-shabbat{ border-color:var(--shabbat-line); background:linear-gradient(180deg,var(--shabbat-bg),var(--surface) 55%); }
+  .daycard.is-chag{ border-color:var(--chag-line); background:linear-gradient(180deg,var(--chag-bg),var(--surface) 55%); }
+  .daycard.is-cholhamoed{ border-color:var(--cholhamoed-line); background:linear-gradient(180deg,var(--cholhamoed-bg),var(--surface) 55%); }
+  .daycard.is-fast{ border-color:var(--fast-line); background:linear-gradient(180deg,var(--fast-bg),var(--surface) 55%); }
+  .daycard .dow{ font-size:.72rem; font-weight:700; color:var(--ink-soft); }
+  .daycard .dnum{ font-size:1.3rem; font-weight:800; font-variant-numeric:tabular-nums; }
+  .daycard .dheb{ font-size:.72rem; color:var(--ink-soft); }
+  .daycard .dtitle{ font-size:.82rem; font-weight:700; line-height:1.25; }
+  .daycard .dtimes{ margin-top:auto; display:flex; flex-direction:column; gap:2px; font-size:.74rem; font-weight:700; font-variant-numeric:tabular-nums; }
+
+  @media (max-width:820px){
+    .cards-grid{ grid-template-columns:repeat(7,1fr); gap:6px; }
+    .daycard{ min-height:92px; padding:7px 5px; border-radius:9px; }
+    .daycard .dnum{ font-size:1.05rem; }
+    .daycard .dtitle{ font-size:.66rem; }
+    .daycard .dtimes{ font-size:.6rem; }
+    .daycard .dheb{ display:none; }
+  }
+  @media (max-width:540px){
+    .cards-grid{ grid-template-columns:1fr; gap:10px; }
+    .daycard{ min-height:0; flex-direction:row; align-items:center; padding:14px; border-radius:14px; }
+    .daycard .datecol{ display:flex; flex-direction:column; align-items:center; min-width:56px; }
+    .daycard .dnum{ font-size:1.5rem; }
+    .daycard .dheb{ display:block; font-size:.72rem; }
+    .daycard .maincol{ flex:1; display:flex; flex-direction:column; gap:6px; }
+    .daycard .dtitle{ font-size:.98rem; }
+    .daycard .dtimes{ flex-direction:row; gap:14px; font-size:.88rem; }
+  }
+
+  /* ---------- 2. Agenda ---------- */
+  .agenda-week + .agenda-week{ margin-top:22px; }
+  .agenda-weekhead{
+    position:sticky; top:0;
+    background:var(--bg);
+    padding:8px 0;
+    font-size:.8rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    letter-spacing:.03em;
+    border-bottom:1px solid var(--border-soft);
+    margin-bottom:10px;
+  }
+  .agenda-row{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:14px 16px;
+    box-shadow:var(--shadow);
+  }
+  .agenda-row + .agenda-row{ margin-top:8px; }
+  .agenda-row.plain{ box-shadow:none; background:transparent; border-color:transparent; padding:8px 16px; }
+  .agenda-date{
+    flex:0 0 auto;
+    width:58px;
+    text-align:center;
+  }
+  .agenda-date .dnum{ font-size:1.4rem; font-weight:800; font-variant-numeric:tabular-nums; display:block; }
+  .agenda-date .dow{ font-size:.75rem; color:var(--ink-soft); font-weight:700; }
+  .agenda-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; }
+  .agenda-heb{ font-size:.78rem; color:var(--ink-soft); }
+  .agenda-title{ font-size:1.05rem; font-weight:800; line-height:1.3; }
+  .agenda-times{ display:flex; flex-direction:column; gap:4px; }
+  .agenda-row.plain .agenda-title{ font-size:.9rem; font-weight:600; color:var(--ink-soft); }
+
+  /* ---------- 3. Compact grid + detail ---------- */
+  .compact-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+  }
+  .compact-cell{
+    aspect-ratio:1;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:9px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+    font-variant-numeric:tabular-nums;
+    padding:2px;
+  }
+  .compact-cell .n{ font-size:.9rem; font-weight:700; }
+  .compact-cell .m{ font-size:.85rem; line-height:1; }
+  .compact-cell.k-shabbat{ background:var(--shabbat-bg); }
+  .compact-cell.k-chag{ background:var(--chag-bg); }
+  .compact-cell.k-cholhamoed{ background:var(--cholhamoed-bg); }
+  .compact-cell.k-fast{ background:var(--fast-bg); }
+  .compact-cell[aria-pressed="true"]{ outline:3px solid var(--accent); outline-offset:1px; }
+  .compact-cell:focus-visible{ outline:3px solid var(--accent); outline-offset:1px; }
+
+  .detail-panel{
+    margin-top:16px;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+    position:sticky;
+    bottom:12px;
+  }
+  .detail-panel .dp-date{ font-size:.85rem; color:var(--ink-soft); font-weight:700; margin-bottom:4px; }
+  .detail-panel .dp-title{ font-size:1.3rem; font-weight:800; margin-bottom:14px; }
+  .detail-panel .agenda-times{ gap:8px; }
+  .detail-panel .timerow{ font-size:1.1rem; }
+  .detail-empty{ color:var(--ink-soft); font-size:.95rem; }
+
+  @media (max-width:480px){
+    .compact-grid{ gap:4px; }
+    .compact-cell .n{ font-size:.78rem; }
+  }
+
+  /* ---------- 4. Timeline ---------- */
+  .timeline{
+    position:relative;
+    padding-inline-start:26px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    inset-inline-start:9px;
+    top:4px; bottom:4px;
+    width:3px;
+    background:var(--border);
+    border-radius:3px;
+  }
+  .t-node{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:30px;
+    color:var(--ink-soft);
+    font-size:.8rem;
+    font-weight:600;
+  }
+  .t-node::before{
+    content:"";
+    position:absolute;
+    inset-inline-start:-26px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--border);
+    border:2px solid var(--bg);
+  }
+  .t-node.plain{ padding:2px 0; }
+  .t-item{
+    position:relative;
+    margin:6px 0 14px;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:14px 16px;
+    box-shadow:var(--shadow);
+  }
+  .t-item::before{
+    content:"";
+    position:absolute;
+    inset-inline-start:-26px;
+    top:16px;
+    width:11px; height:11px;
+    border-radius:50%;
+    border:3px solid var(--bg);
+  }
+  .t-item.k-shabbat::before{ background:var(--shabbat); }
+  .t-item.k-chag::before{ background:var(--chag); }
+  .t-item.k-cholhamoed::before{ background:var(--cholhamoed); }
+  .t-item.k-fast::before{ background:var(--fast); }
+  .t-item .t-head{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .t-item .t-date{ font-size:.8rem; color:var(--ink-soft); font-weight:700; }
+  .t-item .t-title{ font-size:1.05rem; font-weight:800; }
+  .span-bracket{
+    position:relative;
+    margin:16px 0;
+    padding-inline-start:16px;
+    border-inline-start:3px solid var(--chag-line);
+  }
+  .span-bracket.k-shabbat{ border-color:var(--shabbat-line); }
+  .span-bracket.k-chag{ border-color:var(--chag-line); }
+  .span-label{
+    font-size:.78rem;
+    font-weight:800;
+    color:var(--chag);
+    margin-bottom:8px;
+    text-transform:none;
+  }
+  .span-bracket.k-shabbat .span-label{ color:var(--shabbat); }
+
+  /* ---------- 5. Accessibility ---------- */
+  .a11y-bar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:999px;
+    padding:8px 14px;
+    margin-bottom:18px;
+    width:fit-content;
+  }
+  .a11y-bar span{ font-size:.85rem; font-weight:700; color:var(--ink-soft); }
+  .a11y-btn{
+    font-family:inherit;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--ink);
+    font-weight:800;
+    border-radius:8px;
+    width:38px; height:38px;
+    cursor:pointer;
+  }
+  .a11y-btn:hover{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .a11y-btn:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+
+  .a11y-list{ display:flex; flex-direction:column; gap:10px; }
+  .a11y-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:10px 14px;
+    border-radius:10px;
+    color:var(--ink-soft);
+    font-weight:600;
+    font-size:calc(.95rem * var(--a11y-scale, 1));
+  }
+  .a11y-row .an{ font-variant-numeric:tabular-nums; font-weight:800; color:var(--ink); width:2.4em; }
+  .a11y-block{
+    border:2px solid var(--border-soft);
+    border-radius:16px;
+    padding:20px;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+  }
+  .a11y-block.k-shabbat{ border-color:var(--shabbat); background:var(--shabbat-bg); }
+  .a11y-block.k-chag{ border-color:var(--chag); background:var(--chag-bg); }
+  .a11y-block.k-cholhamoed{ border-color:var(--cholhamoed); background:var(--cholhamoed-bg); }
+  .a11y-block.k-fast{ border-color:var(--fast); background:var(--fast-bg); }
+  .a11y-block .ab-date{
+    font-size:calc(1.05rem * var(--a11y-scale,1));
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .a11y-block .ab-title{
+    font-size:calc(1.7rem * var(--a11y-scale,1));
+    font-weight:900;
+    line-height:1.25;
+    margin-bottom:16px;
+    text-wrap:balance;
+  }
+  .a11y-block .timerow{ font-size:calc(1.25rem * var(--a11y-scale,1)); font-weight:700; }
+  .a11y-block .timerow .tlabel{ font-weight:700; }
+  .a11y-block .timerow + .timerow{ margin-top:8px; }
+
+  .foot{
+    margin-top:36px;
+    padding-top:16px;
+    border-top:1px solid var(--border-soft);
+    color:var(--ink-soft);
+    font-size:.82rem;
+    line-height:1.6;
+  }
+</style>
+
+<script>
+(function(){
+  "use strict";
+
+  var HEB_NUM = ["","א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ז׳","ח׳","ט׳","י׳","י״א","י״ב","י״ג","י״ד","ט״ו","ט״ז","י״ז","י״ח","י״ט","כ׳","כ״א","כ״ב","כ״ג","כ״ד","כ״ה","כ״ו","כ״ז","כ״ח","כ״ט","ל׳"];
+  var DOW = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+
+  function heb(n, monthName){ return HEB_NUM[n] + " ב" + monthName; }
+
+  // day: [gregorian M/D, hebrew day-in-month, hebrew month name, kind, title, entryLabel, entryTime, exitLabel, exitTime]
+  var raw = [
+    ["8/30", 17, "אלול", "plain", null, null, null, null, null],
+    ["8/31", 18, "אלול", "plain", null, null, null, null, null],
+    ["9/1", 19, "אלול", "plain", null, null, null, null, null],
+    ["9/2", 20, "אלול", "plain", null, null, null, null, null],
+    ["9/3", 21, "אלול", "plain", null, null, null, null, null],
+    ["9/4", 22, "אלול", "shabbat", "שבת", "כניסת שבת", "18:12", null, null],
+    ["9/5", 23, "אלול", "shabbat", "שבת", null, null, "יציאת שבת", "19:33"],
+    ["9/6", 24, "אלול", "plain", null, null, null, null, null],
+    ["9/7", 25, "אלול", "plain", null, null, null, null, null],
+    ["9/8", 26, "אלול", "plain", null, null, null, null, null],
+    ["9/9", 27, "אלול", "plain", null, null, null, null, null],
+    ["9/10", 28, "אלול", "plain", null, null, null, null, null],
+    ["9/11", 29, "אלול", "chag", "ערב ראש השנה", "כניסת חג — ראש השנה", "18:02", null, null],
+    ["9/12", 1, "תשרי", "shabbat-chag", "ראש השנה, יום א׳ (שבת)", null, null, null, null],
+    ["9/13", 2, "תשרי", "chag", "ראש השנה, יום ב׳", null, null, "יציאת חג — מוצאי ראש השנה", "19:21"],
+    ["9/14", 3, "תשרי", "fast", "צום גדליה", "תחילת הצום", "05:12", "סיום הצום", "18:57"],
+    ["9/15", 4, "תשרי", "plain", null, null, null, null, null],
+    ["9/16", 5, "תשרי", "plain", null, null, null, null, null],
+    ["9/17", 6, "תשרי", "plain", null, null, null, null, null],
+    ["9/18", 7, "תשרי", "shabbat", "שבת", "כניסת שבת", "17:51", null, null],
+    ["9/19", 8, "תשרי", "shabbat", "שבת", null, null, "יציאת שבת", "19:11"],
+    ["9/20", 9, "תשרי", "chag", "ערב יום כיפור", "כניסת יום כיפור", "17:48", null, null],
+    ["9/21", 10, "תשרי", "chag", "יום כיפור", null, null, "יציאת יום כיפור", "19:08"],
+    ["9/22", 11, "תשרי", "plain", null, null, null, null, null],
+    ["9/23", 12, "תשרי", "plain", null, null, null, null, null],
+    ["9/24", 13, "תשרי", "plain", null, null, null, null, null],
+    ["9/25", 14, "תשרי", "chag", "ערב סוכות", "כניסת חג — סוכות", "17:40", null, null],
+    ["9/26", 15, "תשרי", "shabbat-chag", "סוכות, יום א׳ (שבת)", null, null, null, null],
+    ["9/27", 16, "תשרי", "cholhamoed", "חול המועד סוכות, יום א׳", null, null, null, null],
+    ["9/28", 17, "תשרי", "cholhamoed", "חול המועד סוכות, יום ב׳", null, null, null, null],
+    ["9/29", 18, "תשרי", "cholhamoed", "חול המועד סוכות, יום ג׳", null, null, null, null],
+    ["9/30", 19, "תשרי", "cholhamoed", "חול המועד סוכות, יום ד׳", null, null, null, null],
+    ["10/1", 20, "תשרי", "cholhamoed", "הושענא רבה", null, null, null, null],
+    ["10/2", 21, "תשרי", "chag", "ערב שמיני עצרת ושמחת תורה", "כניסת חג — שמיני עצרת", "17:29", null, null],
+    ["10/3", 22, "תשרי", "shabbat-chag", "שמיני עצרת ושמחת תורה (שבת)", null, null, "יציאת חג — מוצאי שמחת תורה", "18:49"]
+  ];
+
+  var days = raw.map(function(r, i){
+    var parts = r[0].split("/");
+    var d = new Date(2026, parseInt(parts[0],10)-1, parseInt(parts[1],10));
+    return {
+      idx:i,
+      date:d,
+      dnum:d.getDate(),
+      mnum:d.getMonth()+1,
+      dow:d.getDay(),
+      dowLabel:DOW[d.getDay()],
+      heb:heb(r[1], r[2]),
+      kind:r[3],
+      title:r[4],
+      entryLabel:r[5], entryTime:r[6],
+      exitLabel:r[7], exitTime:r[8]
+    };
+  });
+
+  var KIND_BADGE = {
+    "shabbat":"badge-shabbat", "shabbat-chag":"badge-shabbat",
+    "chag":"badge-chag", "cholhamoed":"badge-cholhamoed", "fast":"badge-fast"
+  };
+  var KIND_LABEL = {
+    "shabbat":"שבת", "shabbat-chag":"שבת וחג",
+    "chag":"חג", "cholhamoed":"חוה״מ", "fast":"צום"
+  };
+  function primaryKind(k){ return k === "shabbat-chag" ? "chag" : k; }
+
+  function esc(s){ return s==null ? "" : String(s); }
+
+  function timesHtml(d, cls){
+    var out = "";
+    if(d.entryTime){
+      out += '<div class="timerow ' + (cls||"") + '"><span class="icon">🕯️</span><span class="tlabel">' + esc(d.entryLabel) + '</span><span class="tval">' + d.entryTime + '</span></div>';
+    }
+    if(d.exitTime){
+      out += '<div class="timerow ' + (cls||"") + '"><span class="icon">✨</span><span class="tlabel">' + esc(d.exitLabel) + '</span><span class="tval">' + d.exitTime + '</span></div>';
+    }
+    return out;
+  }
+
+  /* ---------- 1. Big cards ---------- */
+  function renderCards(){
+    var html = '<div class="cards-grid">';
+    days.forEach(function(d){
+      var kindClass = d.kind === "plain" ? "" : "is-" + primaryKind(d.kind);
+      html += '<div class="daycard ' + kindClass + '">';
+      html += '<div class="datecol"><span class="dow">' + d.dowLabel + '</span><span class="dnum">' + d.dnum + '.' + d.mnum + '</span><span class="dheb">' + d.heb + '</span></div>';
+      html += '<div class="maincol">';
+      if(d.title){ html += '<div class="dtitle">' + esc(d.title) + '</div>'; }
+      if(d.entryTime || d.exitTime){
+        html += '<div class="dtimes">';
+        if(d.entryTime) html += '<span>🕯️ ' + d.entryTime + '</span>';
+        if(d.exitTime) html += '<span>✨ ' + d.exitTime + '</span>';
+        html += '</div>';
+      }
+      html += '</div></div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  /* ---------- 2. Agenda ---------- */
+  function renderAgenda(){
+    var html = "";
+    var week = [];
+    var weeks = [];
+    days.forEach(function(d){
+      week.push(d);
+      if(d.dow === 6){ weeks.push(week); week = []; }
+    });
+    if(week.length) weeks.push(week);
+
+    weeks.forEach(function(w, wi){
+      var first = w[0], last = w[w.length-1];
+      html += '<section class="agenda-week"><div class="agenda-weekhead">שבוע ' + (wi+1) + ' &nbsp;·&nbsp; ' + first.dnum + '.' + first.mnum + '–' + last.dnum + '.' + last.mnum + '</div>';
+      w.forEach(function(d){
+        var isPlain = d.kind === "plain";
+        html += '<article class="agenda-row ' + (isPlain?"plain":"") + '">';
+        html += '<div class="agenda-date"><span class="dnum">' + d.dnum + '</span><span class="dow">' + d.dowLabel + '</span></div>';
+        html += '<div class="agenda-main"><div class="agenda-heb">' + d.heb + '</div>';
+        html += '<div class="agenda-title">' + (d.title ? esc(d.title) : "יום חול") + '</div>';
+        if(!isPlain && (d.entryTime || d.exitTime)){
+          html += '<div class="agenda-times">' + timesHtml(d) + '</div>';
+        }
+        html += '</div></article>';
+      });
+      html += '</section>';
+    });
+    return html;
+  }
+
+  /* ---------- 3. Compact grid + detail ---------- */
+  function renderCompact(){
+    var defaultIdx = days.findIndex(function(d){ return d.kind !== "plain"; });
+    var html = '<div class="compact-grid" role="group" aria-label="רשת ימים">';
+    days.forEach(function(d){
+      var k = d.kind === "plain" ? "" : "k-" + primaryKind(d.kind);
+      var marker = d.entryTime ? "🕯️" : (d.exitTime ? "✨" : "");
+      html += '<button type="button" class="compact-cell ' + k + '" data-idx="' + d.idx + '" aria-pressed="' + (d.idx===defaultIdx?"true":"false") + '" aria-label="' + d.dnum + '.' + d.mnum + ' ' + d.dowLabel + (d.title? ", " + esc(d.title):"") + '">';
+      html += '<span class="n">' + d.dnum + '</span><span class="m">' + marker + '</span>';
+      html += '</button>';
+    });
+    html += '</div><div class="detail-panel" id="detailPanel" aria-live="polite"></div>';
+    return html;
+  }
+
+  function fillDetail(idx){
+    var d = days[idx];
+    var el = document.getElementById("detailPanel");
+    if(!el) return;
+    if(!d || d.kind === "plain"){
+      el.innerHTML = '<div class="dp-date">' + (d? d.dnum + '.' + d.mnum + ' &nbsp;·&nbsp; ' + d.dowLabel + ' &nbsp;·&nbsp; ' + d.heb : "") + '</div><div class="detail-empty">יום חול, ללא אירוע מיוחד.</div>';
+      return;
+    }
+    el.innerHTML = '<div class="dp-date">' + d.dnum + '.' + d.mnum + ' &nbsp;·&nbsp; ' + d.dowLabel + ' &nbsp;·&nbsp; ' + d.heb + '</div>' +
+      '<div class="dp-title">' + esc(d.title) + '</div>' +
+      '<div class="agenda-times">' + timesHtml(d) + '</div>';
+  }
+
+  /* ---------- 4. Timeline ---------- */
+  var SPANS = [
+    {kind:"shabbat", label:"שבת", from:5, to:6},
+    {kind:"chag", label:"ראש השנה", from:12, to:14},
+    {kind:"shabbat", label:"שבת", from:19, to:20},
+    {kind:"chag", label:"יום כיפור", from:21, to:22},
+    {kind:"chag", label:"סוכות וחול המועד", from:26, to:31},
+    {kind:"chag", label:"שמיני עצרת ושמחת תורה", from:32, to:33}
+  ];
+
+  function renderTimeline(){
+    var covered = {};
+    SPANS.forEach(function(s){ for(var i=s.from;i<=s.to;i++) covered[i]=s; });
+
+    var html = '';
+    var i = 0;
+    while(i < days.length){
+      var d = days[i];
+      var span = covered[i] && covered[i].from === i ? covered[i] : null;
+      if(span){
+        html += '<div class="span-bracket k-' + primaryKind(span.kind) + '"><div class="span-label">' + span.label + ' &nbsp;·&nbsp; ' + days[span.from].dnum + '.' + days[span.from].mnum + '–' + days[span.to].dnum + '.' + days[span.to].mnum + '</div>';
+        for(var j=span.from; j<=span.to; j++){
+          html += timelineItem(days[j]);
+        }
+        html += '</div>';
+        i = span.to + 1;
+      } else if(d.kind !== "plain"){
+        html += timelineItem(d);
+        i++;
+      } else {
+        html += '<div class="t-node plain">' + d.dnum + '.' + d.mnum + ' — ' + d.dowLabel + ', ' + d.heb + '</div>';
+        i++;
+      }
+    }
+    return '<div class="timeline">' + html + '</div>';
+  }
+
+  function timelineItem(d){
+    var k = primaryKind(d.kind);
+    var html = '<div class="t-item k-' + k + '"><div class="t-head"><span class="t-title">' + esc(d.title || KIND_LABEL[d.kind]) + '</span><span class="t-date">' + d.dnum + '.' + d.mnum + ' · ' + d.dowLabel + '</span></div>';
+    if(d.entryTime || d.exitTime){ html += timesHtml(d); }
+    html += '</div>';
+    return html;
+  }
+
+  /* ---------- 5. Accessibility ---------- */
+  function renderA11y(){
+    var html = '<div class="a11y-bar"><span>גודל טקסט</span><button class="a11y-btn" id="a11yMinus" aria-label="הקטן טקסט">א−</button><button class="a11y-btn" id="a11yPlus" aria-label="הגדל טקסט">א+</button></div>';
+    html += '<div class="a11y-list">';
+    days.forEach(function(d){
+      if(d.kind === "plain"){
+        html += '<div class="a11y-row"><span class="an">' + d.dnum + '.' + d.mnum + '</span><span>' + d.dowLabel + ' · ' + d.heb + ' — יום חול</span></div>';
+      } else {
+        var k = primaryKind(d.kind);
+        html += '<div class="a11y-block k-' + k + '">';
+        html += '<div class="ab-date">' + d.dnum + '.' + d.mnum + ' · ' + d.dowLabel + ' · ' + d.heb + '</div>';
+        html += '<div class="ab-title">' + esc(d.title) + '</div>';
+        html += timesHtml(d);
+        html += '</div>';
+      }
+    });
+    html += '</div>';
+    return html;
+  }
+
+  /* ---------- assemble ---------- */
+  var panels = document.getElementById("panels");
+  panels.innerHTML =
+    '<section class="panel active" id="panel-cards" role="tabpanel">' + renderCards() + '</section>' +
+    '<section class="panel" id="panel-agenda" role="tabpanel">' + renderAgenda() + '</section>' +
+    '<section class="panel" id="panel-compact" role="tabpanel">' + renderCompact() + '</section>' +
+    '<section class="panel" id="panel-timeline" role="tabpanel">' + renderTimeline() + '</section>' +
+    '<section class="panel" id="panel-a11y" role="tabpanel">' + renderA11y() + '</section>';
+
+  var defaultIdx = days.findIndex(function(d){ return d.kind !== "plain"; });
+  fillDetail(defaultIdx);
+  var compactGrid = document.querySelector(".compact-grid");
+  compactGrid.addEventListener("click", function(e){
+    var btn = e.target.closest(".compact-cell");
+    if(!btn) return;
+    compactGrid.querySelectorAll(".compact-cell").forEach(function(c){ c.setAttribute("aria-pressed","false"); });
+    btn.setAttribute("aria-pressed","true");
+    fillDetail(parseInt(btn.getAttribute("data-idx"),10));
+  });
+
+  var a11yScale = 1;
+  function applyA11yScale(){
+    document.getElementById("panel-a11y").style.setProperty("--a11y-scale", a11yScale);
+  }
+  document.getElementById("a11yPlus").addEventListener("click", function(){
+    a11yScale = Math.min(1.5, +(a11yScale + 0.15).toFixed(2));
+    applyA11yScale();
+  });
+  document.getElementById("a11yMinus").addEventListener("click", function(){
+    a11yScale = Math.max(0.85, +(a11yScale - 0.15).toFixed(2));
+    applyA11yScale();
+  });
+
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      tabs.forEach(function(t){ t.setAttribute("aria-selected","false"); });
+      tab.setAttribute("aria-selected","true");
+      document.querySelectorAll(".panel").forEach(function(p){ p.classList.remove("active"); });
+      document.getElementById("panel-" + tab.getAttribute("data-tab")).classList.add("active");
+    });
+  });
+})();
+</script>

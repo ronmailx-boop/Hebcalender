@@ -1,0 +1,84 @@
+.compact-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.compact-cell {
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  padding: 2px;
+  position: relative;
+}
+
+.compact-cell .n {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.compact-cell .m {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.compact-cell.k-shabbat {
+  background: var(--shabbat-bg);
+}
+
+.compact-cell.k-chag {
+  background: var(--chag-bg);
+}
+
+.compact-cell.k-cholhamoed {
+  background: var(--cholhamoed-bg);
+}
+
+.compact-cell.k-fast {
+  background: var(--fast-bg);
+}
+
+.compact-cell.k-minor {
+  background: var(--minor-bg);
+}
+
+.compact-cell.is-outside {
+  opacity: 0.42;
+}
+
+.compact-cell.is-today .n {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--accent);
+}
+
+.compact-cell[aria-pressed="true"] {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.compact-cell:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+}
+
+@media (max-width: 480px) {
+  .compact-grid {
+    gap: 4px;
+  }
+
+  .compact-cell .n {
+    font-size: 0.78rem;
+  }
+}
