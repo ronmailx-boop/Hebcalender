@@ -2,6 +2,8 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
+  /* Vertical page scroll stays native; horizontal drags are read as month-swipe gestures in JS. */
+  touch-action: pan-y;
 }
 
 .compact-cell {

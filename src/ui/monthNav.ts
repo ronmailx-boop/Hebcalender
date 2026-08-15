@@ -16,3 +16,20 @@ export function arrowKeyToStep(key: string): "prev" | "next" | null {
   if (key === "ArrowLeft") return "next";
   return null;
 }
+
+const SWIPE_MIN_DISTANCE = 45;
+/** Vertical drift allowed before a gesture stops counting as a horizontal swipe. */
+const SWIPE_MAX_VERTICAL_RATIO = 0.6;
+
+/**
+ * Classifies a touch gesture's total movement as a month-changing swipe.
+ * Same RTL convention as arrowKeyToStep: a swipe to the right (finger moves
+ * toward positive X, deltaX > 0) is "backward" in reading direction → prev
+ * month; a swipe left → next month. Returns null for taps, vertical scrolls,
+ * or anything below the minimum horizontal distance.
+ */
+export function detectSwipeDirection(deltaX: number, deltaY: number): "prev" | "next" | null {
+  if (Math.abs(deltaX) < SWIPE_MIN_DISTANCE) return null;
+  if (Math.abs(deltaY) > Math.abs(deltaX) * SWIPE_MAX_VERTICAL_RATIO) return null;
+  return deltaX > 0 ? "prev" : "next";
+}
