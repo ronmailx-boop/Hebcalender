@@ -84,8 +84,8 @@ export function defaultIcsWindow(now: Date = new Date()): { start: Date; end: Da
 
 /**
  * Serializes hebcal events into an RFC5545 ICS calendar. Pure/isomorphic —
- * no DOM, no filesystem — used identically by scripts/build-ics.ts (Node,
- * build time) and ui/icsButton.ts (browser, on-demand download).
+ * no DOM, no filesystem — used by scripts/build-ics.ts (Node, build time)
+ * to publish the static hebcal-israel.ics feed.
  */
 export function eventsToIcs(events: HebcalEvent[], opts: IcsOptions): string {
   const lines: string[] = [

@@ -1,11 +1,9 @@
 import { getMonthGrid } from "./lib/hebcal";
 import { isoDate } from "./lib/format";
-import { LOCATIONS } from "./config";
 import { store } from "./state";
 import { renderDowRow, renderGrid, renderMonthTitle } from "./ui/grid";
 import { renderDetail } from "./ui/detailPanel";
 import { prevMonth, nextMonth, arrowKeyToStep, detectSwipeDirection } from "./ui/monthNav";
-import { getGoogleSubscribeUrl, downloadIcs } from "./ui/icsButton";
 
 const monthTitleEl = document.getElementById("monthTitle")!;
 const dowRowEl = document.getElementById("dowRow")!;
@@ -14,9 +12,6 @@ const detailEl = document.getElementById("detailPanel")!;
 const prevBtn = document.getElementById("prevMonth")!;
 const nextBtn = document.getElementById("nextMonth")!;
 const todayBtn = document.getElementById("todayBtn")!;
-const subscribeLink = document.getElementById("subscribeLink") as HTMLAnchorElement;
-const downloadBtn = document.getElementById("downloadIcsBtn")!;
-const locationLabelEl = document.getElementById("locationLabel")!;
 
 dowRowEl.innerHTML = renderDowRow();
 
@@ -99,11 +94,6 @@ document.addEventListener("keydown", (e) => {
   if (!step) return;
   stepMonth(step);
 });
-
-downloadBtn.addEventListener("click", () => downloadIcs(store.get().locationKey));
-
-subscribeLink.href = getGoogleSubscribeUrl();
-locationLabelEl.textContent = LOCATIONS[store.get().locationKey]?.label ?? "";
 
 store.subscribe(render);
 
