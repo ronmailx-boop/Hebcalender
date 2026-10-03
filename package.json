@@ -10,7 +10,8 @@
     "build": "npm run build:ics && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@hebcal/core": "^6.9.2"
@@ -20,6 +21,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "vite": "^6.0.7",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.4",
+    "wrangler": "^4.147.0"
   }
 }
