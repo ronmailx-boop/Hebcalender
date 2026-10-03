@@ -1,10 +1,8 @@
 {
+  // Cloudflare Workers: serves the app as static assets (no Worker script).
   "name": "hebcalendar",
   "compatibility_date": "2026-10-03",
-  "assets": {
-    "directory": "./dist"
-  },
-  "routes": [
-    { "pattern": "hebcalendar.vplusstudio.app", "custom_domain": true }
-  ]
+  "assets": { "directory": "./dist" },
+  "workers_dev": true,
+  "routes": [{ "pattern": "hebcalendar.vplusstudio.app", "custom_domain": true }]
 }
