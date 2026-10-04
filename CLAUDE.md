@@ -163,3 +163,17 @@ Domains & Routes → ליד `workers.dev` → Disable. **אזהרה:** בלי
 - כתובת חדשה = origin חדש: נתונים מקומיים (localStorage / IndexedDB) והתקנת PWA **לא עוברים**. לחבר את הדומיין לפני שמשווקים; באפליקציה קיימת עם משתמשים — להזהיר את המשתמש לפני שמפנים אליה.
 - Firebase Auth / OAuth: להוסיף את הדומיין החדש ל-Authorized domains (אחרת ההתחברות תיכשל בכתובת החדשה).
 - לעדכן את הכתובת ב-README, ב-PROJECT_STATE.md, וב-manifest / מסמכים משפטיים אם היא מופיעה בהם.
+
+## Legal & Compliance Documents
+
+קונבנציה אחידה לכל אפליקציות הסטודיו (ראו גם `vplus-studio`, `vplus`).
+
+- **מקור קאנוני:** כל המסמכים המשפטיים נשמרים כ-Markdown תחת `docs/legal/`:
+  - `docs/legal/privacy-policy.md` (מדיניות פרטיות — תואם חוק הגנת הפרטיות הישראלי ו-GDPR)
+  - `docs/legal/terms-of-service.md` (תנאי שימוש)
+  - `docs/legal/cookie-policy.md` (מדיניות עוגיות)
+  - `docs/legal/accessibility-statement.md` (הצהרת נגישות — IS 5568 / WCAG 2.1 AA)
+- **שפה ועיצוב:** כתוב בעברית פורמלית, עם placeholders בסגנון `[PLACEHOLDER: ...]` במקום שבו נדרש מידע ספציפי (שם עסק, ח.פ., רכז/ת נגישות וכו').
+- **עמודים מוגשים:** בניגוד ל-`vplus-studio` (שמגיש ישירות משורש הריפו), Hebcalender נבנה ב-Vite ומגיש מ-`dist/` — לכן ה-HTML המוגש בפועל לאתר יושב תחת `public/legal/*.html` (מועתק כמו-שהוא ל-`dist/legal/` בבנייה), ולא תחת `docs/legal/`. בכל שינוי בתוכן יש לעדכן גם את ה-Markdown (מקור) וגם את ה-HTML (מוגש) כדי שלא יתפצלו.
+- **זהות עסקית משותפת לסטודיו:** אימייל ליצירת קשר `vplus.studio.apps@gmail.com`; שם העסק/ח.פ. עדיין `[PLACEHOLDER]` ברחבי כל אפליקציות הסטודיו, בהמתנה לרישום כעוסק פטור.
+- **קישור מה-footer:** קישורים ל-4 המסמכים מופיעים ב-footer של `index.html`.
